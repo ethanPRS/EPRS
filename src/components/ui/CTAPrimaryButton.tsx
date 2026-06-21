@@ -5,9 +5,11 @@ interface Props {
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   className?: string;
   href?: string;
+  target?: string;
+  rel?: string;
 }
 
-export const CTAPrimaryButton = ({ children, onClick, className = "", href }: Props) => {
+export const CTAPrimaryButton = ({ children, onClick, className = "", href, target, rel }: Props) => {
   const inner = (
     <>
       <span className="fold" />
@@ -36,7 +38,7 @@ export const CTAPrimaryButton = ({ children, onClick, className = "", href }: Pr
 
   if (href) {
     return (
-      <a href={href} className={`button ${className}`}>
+      <a href={href} target={target} rel={rel} onClick={onClick} className={`button ${className}`}>
         {inner}
       </a>
     );

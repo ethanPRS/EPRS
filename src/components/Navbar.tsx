@@ -145,8 +145,9 @@ export const Navbar = () => {
 
         {/* CTA (desktop only) */}
         <CTAPrimaryButton
-          href="#contact"
-          onClick={(e) => handleNav(e, "#contact", "Contact")}
+          href="https://wa.me/528126217157?text=Hola%20Ethan%2C%20te%20contacto%20desde%20tu%20sitio%20web%20EPRS.%20Me%20gustar%C3%ADa%20hablar%20sobre%20un%20proyecto."
+          target="_blank"
+          rel="noopener noreferrer"
           className="shrink-0 hidden md:flex"
         >
           Let&apos;s Talk
@@ -217,8 +218,9 @@ export const Navbar = () => {
               className="mt-4"
             >
               <CTAPrimaryButton
-                href="#contact"
-                onClick={(e) => handleNav(e, "#contact", "Contact")}
+                href="https://wa.me/528126217157?text=Hola%20Ethan%2C%20te%20contacto%20desde%20tu%20sitio%20web%20EPRS.%20Me%20gustar%C3%ADa%20hablar%20sobre%20un%20proyecto."
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Let&apos;s Talk
               </CTAPrimaryButton>

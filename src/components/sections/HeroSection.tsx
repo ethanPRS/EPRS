@@ -89,7 +89,7 @@ export const HeroSection = () => {
 
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-start">
             <CTAPrimaryButton href="#projects">View Projects</CTAPrimaryButton>
-            <CTASecondaryButton href="https://wa.me/528126217157" target="_blank" rel="noopener noreferrer">Let&apos;s Talk</CTASecondaryButton>
+            <CTASecondaryButton href="https://wa.me/528126217157?text=Hola%20Ethan%2C%20te%20contacto%20desde%20tu%20sitio%20web%20EPRS.%20Me%20gustar%C3%ADa%20hablar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer">Let&apos;s Talk</CTASecondaryButton>
           </div>
         </motion.div>
 

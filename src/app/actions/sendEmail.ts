@@ -17,14 +17,9 @@ export async function sendEmail(formData: FormData) {
     const data = await resend.emails.send({
       from: "EPRS Website <onboarding@resend.dev>", // Replace with your verified domain later (e.g., contact@eprs.com)
       to: process.env.CONTACT_EMAIL || "ethan@example.com", // This will be the email where you receive messages
-      subject: `New Contact Form Submission from ${name}`,
+      subject: `EPRS — Website Contact from ${name}`,
       replyTo: email,
-      text: `
-Name: ${name}
-Email: ${email}
-Message:
-${message}
-      `,
+      text: `EPRS — New message from your website\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     });
 
     if (data.error) {
