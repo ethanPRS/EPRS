@@ -16,6 +16,7 @@ const projects = [
     stack: "React · TypeScript · Dashboard UI",
     impact: "Educational systems operations tool",
     image: "/projects/sisops.png",
+    link: "https://sisops-galaxy.onrender.com",
   },
   {
     tags: ["Web App", "Social Impact"],
@@ -26,6 +27,7 @@ const projects = [
     stack: "Next.js · Web Development · UX/UI",
     impact: "Community management simplified",
     image: "/projects/ezer.png",
+    link: "https://ezer-eventos.vercel.app/",
   },
   {
     tags: ["Event Platform", "Real Project"],
@@ -36,6 +38,7 @@ const projects = [
     stack: "Web Development · Performance",
     impact: "Centralized event experience delivered",
     image: "/projects/emv.png",
+    link: "https://encuentro-mundial-de-valores.vercel.app/",
   },
 ];
 
@@ -86,15 +89,18 @@ export const ProjectsSection = () => {
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {projects.map((project, i) => (
-            <motion.div
+            <motion.a
               key={project.title}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
               custom={i}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-60px" }}
               variants={cardVariants}
               whileHover={{ y: -8, transition: { duration: 0.25 } }}
-              className="group relative rounded-2xl border border-white/8 bg-[#031332]/50 backdrop-blur-sm overflow-hidden flex flex-col cursor-pointer"
+              className="group relative rounded-2xl border border-white/8 bg-[#031332]/50 backdrop-blur-sm overflow-hidden flex flex-col cursor-pointer block"
               style={{
                 boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
               }}
@@ -175,7 +181,7 @@ export const ProjectsSection = () => {
                   {project.impact}
                 </p>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </div>
