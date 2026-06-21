@@ -35,9 +35,6 @@ export const ContactSection = () => {
             transition={{ duration: 0.8 }}
           >
             {/* Section header lives here so it top-aligns with the robot */}
-            <span className="text-xs tracking-[0.3em] uppercase text-glow-blue font-body font-medium">
-              Get in touch
-            </span>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold mt-3 mb-4 leading-tight">
               Let&apos;s Build Something <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-glow-blue to-white">
