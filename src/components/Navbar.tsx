@@ -108,7 +108,7 @@ export const Navbar = () => {
             className="w-2 h-2 rounded-full bg-glow-blue block transition-all duration-300 group-hover:scale-150"
             style={{ boxShadow: "0 0 8px 2px #4C8DFF" }}
           />
-          <span className="text-xl sm:text-2xl font-heading font-bold text-white tracking-wide">
+          <span className="text-2xl sm:text-3xl font-heading font-bold text-white tracking-wide">
             EPRS
           </span>
         </a>
@@ -120,7 +120,7 @@ export const Navbar = () => {
               key={link.label}
               href={link.href}
               onClick={(e) => handleNav(e, link.href, link.label)}
-              className="relative px-3 lg:px-4 py-1.5 text-sm font-body transition-colors duration-200 rounded-lg group"
+              className="relative px-3 lg:px-4 py-1.5 text-base font-body transition-colors duration-200 rounded-lg group"
               style={{
                 color: active === link.label ? "#FFFFFF" : "#94A3B8",
               }}
