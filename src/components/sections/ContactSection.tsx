@@ -3,8 +3,32 @@
 import { motion } from "framer-motion";
 import { SplineScene } from "@/components/ui/splite";
 import { CTAPrimaryButton } from "@/components/ui/CTAPrimaryButton";
+import { useState, useRef } from "react";
+import { sendEmail } from "@/app/actions/sendEmail";
 
 export const ContactSection = () => {
+  const [pending, setPending] = useState(false);
+  const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPending(true);
+    setStatus({ type: null, message: "" });
+
+    const formData = new FormData(e.currentTarget);
+    const result = await sendEmail(formData);
+
+    if (result?.error) {
+      setStatus({ type: "error", message: result.error });
+    } else {
+      setStatus({ type: "success", message: "Message sent successfully! We'll be in touch soon." });
+      formRef.current?.reset();
+    }
+    
+    setPending(false);
+  };
+
   return (
     <section
       id="contact"
@@ -46,50 +70,69 @@ export const ContactSection = () => {
               connect and discuss your next big project.
             </p>
 
-            <form className="space-y-5 max-w-md">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-5 max-w-md">
               <div>
                 <label
-                  htmlFor="contact-name"
+                  htmlFor="name"
                   className="block text-sm font-medium text-secondary-text mb-2"
                 >
                   Name
                 </label>
                 <input
                   type="text"
-                  id="contact-name"
+                  id="name"
+                  name="name"
+                  required
                   className="w-full bg-secondary-background/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-cta-blue transition-colors"
                   placeholder="John Doe"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="contact-email"
+                  htmlFor="email"
                   className="block text-sm font-medium text-secondary-text mb-2"
                 >
                   Email
                 </label>
                 <input
                   type="email"
-                  id="contact-email"
+                  id="email"
+                  name="email"
+                  required
                   className="w-full bg-secondary-background/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-cta-blue transition-colors"
                   placeholder="john@example.com"
                 />
               </div>
               <div>
                 <label
-                  htmlFor="contact-message"
+                  htmlFor="message"
                   className="block text-sm font-medium text-secondary-text mb-2"
                 >
                   Message
                 </label>
                 <textarea
-                  id="contact-message"
+                  id="message"
+                  name="message"
+                  required
                   rows={4}
                   className="w-full bg-secondary-background/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-cta-blue transition-colors resize-none"
                   placeholder="Tell me about your project..."
                 />
               </div>
-              <CTAPrimaryButton className="w-full">Send Message</CTAPrimaryButton>
+
+              {status.message && (
+                <div className={`p-3 rounded-lg text-sm ${status.type === 'error' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-green-500/10 text-green-400 border border-green-500/20'}`}>
+                  {status.message}
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                disabled={pending}
+                className="w-full relative px-6 py-3 bg-cta-blue text-white rounded-xl font-medium transition-all duration-300 hover:bg-glow-blue disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {pending ? "Sending..." : "Send Message"}
+              </button>
             </form>
           </motion.div>
 
