@@ -7,10 +7,12 @@ interface Props {
   onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   className?: string;
   href?: string;
+  target?: string;
+  rel?: string;
   icon?: boolean;
 }
 
-export const CTASecondaryButton = ({ children, onClick, className = "", href }: Props) => {
+export const CTASecondaryButton = ({ children, onClick, className = "", href, target, rel }: Props) => {
   const inner = (
     <div className="user-profile-inner">
       <svg
@@ -30,7 +32,7 @@ export const CTASecondaryButton = ({ children, onClick, className = "", href }: 
 
   if (href) {
     return (
-      <a href={href} className={`user-profile ${className}`} aria-label={typeof children === 'string' ? children : "Secondary Action"}>
+      <a href={href} target={target} rel={rel} className={`user-profile ${className}`} aria-label={typeof children === 'string' ? children : "Secondary Action"}>
         {inner}
       </a>
     );
