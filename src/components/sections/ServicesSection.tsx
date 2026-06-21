@@ -9,6 +9,7 @@ import {
   Monitor, Server, Database,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface Service {
   icon: LucideIcon;
@@ -530,14 +531,17 @@ const ServiceItem = ({
   index,
   isActive,
   onActive,
+  t,
 }: {
   service: Service;
   index: number;
   isActive: boolean;
   onActive: (i: number) => void;
+  t: (key: string) => string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const Icon = service.icon;
+  const Visual = VISUALS[index] ?? VISUALS[0];
 
   const onActiveRef = useRef(onActive);
   useEffect(() => { onActiveRef.current = onActive; });
@@ -567,24 +571,27 @@ const ServiceItem = ({
         opacity: isActive ? 1 : 0.28,
       }}
     >
-      {/* Mobile visual */}
+      {/* Mobile / tablet visual — same bespoke component as desktop sticky panel */}
       <div
-        className="lg:hidden mb-7 h-[200px] rounded-xl overflow-hidden relative border border-white/8"
-        style={{ background: service.visualBg }}
+        className="lg:hidden mb-7 relative rounded-xl overflow-hidden border border-white/8"
+        style={{ background: service.visualBg, height: "440px" }}
       >
-        <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full blur-[50px] opacity-35" style={{ backgroundColor: service.orb1 }} />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-          <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center" style={{ color: service.accentColor }}>
-            <Icon size={28} />
-          </div>
-          <div className="flex flex-wrap justify-center gap-1.5 px-6">
-            {service.offerings.slice(0, 3).map((o) => (
-              <span key={o} className="text-[10px] px-2 py-1 rounded-full text-white/60 bg-white/5" style={{ border: `1px solid ${service.accentColor}20` }}>
-                {o}
-              </span>
-            ))}
-          </div>
-        </div>
+        <div
+          className="absolute -top-14 -right-14 w-64 h-64 rounded-full blur-[80px] opacity-28 pointer-events-none"
+          style={{ backgroundColor: service.orb1 }}
+        />
+        <div
+          className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full blur-[60px] opacity-20 pointer-events-none"
+          style={{ backgroundColor: service.orb2 }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.055] pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+        <Visual ac={service.accentColor} />
       </div>
 
       {/* Icon */}
@@ -616,7 +623,7 @@ const ServiceItem = ({
         className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 group/link"
         style={{ color: service.accentColor }}
       >
-        Get started
+        {t("services.cta")}
         <ArrowRight size={14} className="transition-transform duration-200 group-hover/link:translate-x-1" />
       </a>
     </div>
@@ -625,8 +632,17 @@ const ServiceItem = ({
 
 // ── Main section ──────────────────────────────────────────────────────────
 export const ServicesSection = () => {
+  const { t } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const onActive = useCallback((i: number) => setActiveIndex(i), []);
+
+  // Build translated services
+  const translatedServices = services.map((s, i) => ({
+    ...s,
+    title: t(`service.${i}.title`),
+    description: t(`service.${i}.description`),
+    offerings: t(`service.${i}.offerings`).split(","),
+  }));
 
   return (
     <section id="services" className="relative py-32 bg-secondary-background/10">
@@ -644,14 +660,14 @@ export const ServicesSection = () => {
             What I offer
           </span>
           <h2 className="text-4xl md:text-5xl font-heading font-bold mt-3 mb-4 leading-tight">
-            Technology tailored
+            {t("services.title.line1")}
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-glow-blue to-white">
-              to your goals
+              {t("services.title.line2")}
             </span>
           </h2>
-          <p className="text-secondary-text text-base max-w-xs leading-relaxed">
-            From software to intelligent systems — built to help you grow.
+          <p className="text-secondary-text text-base max-w-md leading-relaxed">
+            {t("services.subtitle")}
           </p>
         </motion.div>
 
@@ -666,13 +682,14 @@ export const ServicesSection = () => {
           {/* LEFT — service items */}
           <div className="lg:self-start">
             <div className="border-l-2 border-white/6">
-              {services.map((service, i) => (
+              {translatedServices.map((service, i) => (
                 <ServiceItem
                   key={service.title}
                   service={service}
                   index={i}
                   isActive={activeIndex === i}
                   onActive={onActive}
+                  t={t}
                 />
               ))}
             </div>
@@ -681,11 +698,11 @@ export const ServicesSection = () => {
           {/* RIGHT — sticky visual panel */}
           <div className="hidden lg:block">
             <div className="sticky top-32">
-              <ServiceVisual service={services[activeIndex]} index={activeIndex} />
+              <ServiceVisual service={translatedServices[activeIndex]} index={activeIndex} />
 
               {/* Progress dots */}
               <div className="flex justify-center items-center gap-2 mt-5">
-                {services.map((service, i) => (
+                {translatedServices.map((service, i) => (
                   <button
                     key={i}
                     type="button"

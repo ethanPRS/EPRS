@@ -1,6 +1,10 @@
+"use client";
+
+import { I18nProvider } from "@/lib/i18n";
 import { IntroAnimation } from "@/components/IntroAnimation";
 import { Navbar } from "@/components/Navbar";
 import { ScrollLinePath } from "@/components/ScrollLinePath";
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
@@ -9,12 +13,15 @@ import { ContactSection } from "@/components/sections/ContactSection";
 
 export default function Home() {
   return (
-    <>
+    <I18nProvider>
       {/* Brand intro — plays on every page load, z-[200] */}
       <IntroAnimation />
 
       {/* Liquid glass navbar — z-[100], slides in after intro */}
       <Navbar />
+
+      {/* Floating language toggle */}
+      <LanguageToggle />
 
       {/*
         overflow-x-clip instead of overflow-x-hidden:
@@ -33,6 +40,6 @@ export default function Home() {
         <ProjectsSection />
         <ContactSection />
       </main>
-    </>
+    </I18nProvider>
   );
 }

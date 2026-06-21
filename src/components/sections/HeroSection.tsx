@@ -6,8 +6,11 @@ import { CTASecondaryButton } from "@/components/ui/CTASecondaryButton";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
+import { useI18n } from "@/lib/i18n";
 
 export const HeroSection = () => {
+  const { t } = useI18n();
+
   return (
     <section
       id="hero"
@@ -44,9 +47,9 @@ export const HeroSection = () => {
           className="flex-1 xl:max-w-[52%] xl:pr-8 text-center xl:text-left"
         >
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold leading-tight mb-2">
-            Grow to Help <br />
+            {t("hero.title.line1")} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-glow-blue to-white">
-              Others Grow
+              {t("hero.title.line2")}
             </span>
           </h1>
 
@@ -83,22 +86,21 @@ export const HeroSection = () => {
           </div>
 
           <p className="text-lg sm:text-xl md:text-2xl text-secondary-text mb-10 max-w-2xl mx-auto xl:mx-0 font-light">
-            Helping businesses and entrepreneurs scale through software,
-            automation and technology.
+            {t("hero.subtitle")}
           </p>
 
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-start">
-            <CTAPrimaryButton href="#projects">View Projects</CTAPrimaryButton>
-            <CTASecondaryButton href="https://wa.me/528126217157?text=Hola%20Ethan%2C%20te%20contacto%20desde%20tu%20sitio%20web%20EPRS.%20Me%20gustar%C3%ADa%20hablar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer">Let&apos;s Talk</CTASecondaryButton>
+            <CTAPrimaryButton href="#projects">{t("hero.cta.primary")}</CTAPrimaryButton>
+            <CTASecondaryButton href="https://wa.me/528126217157?text=Hola%20Ethan%2C%20te%20contacto%20desde%20tu%20sitio%20web%20EPRS.%20Me%20gustar%C3%ADa%20hablar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer">{t("hero.cta.secondary")}</CTASecondaryButton>
           </div>
         </motion.div>
 
-        {/* Right: 3D Spline scene — desktop only */}
+        {/* Right: 3D Spline scene */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="hidden xl:flex xl:flex-1 items-center justify-center min-w-0 h-[680px]"
+          className="hidden md:flex md:w-full md:h-[340px] lg:h-[420px] xl:flex-1 xl:h-[680px] items-center justify-center min-w-0 mt-4 xl:mt-0"
         >
           <div className="w-full h-full">
             <SplineScene

@@ -5,8 +5,10 @@ import { SplineScene } from "@/components/ui/splite";
 import { CTAPrimaryButton } from "@/components/ui/CTAPrimaryButton";
 import { useState, useRef } from "react";
 import { sendEmail } from "@/app/actions/sendEmail";
+import { useI18n } from "@/lib/i18n";
 
 export const ContactSection = () => {
+  const { t } = useI18n();
   const [pending, setPending] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" });
   const formRef = useRef<HTMLFormElement>(null);
@@ -22,7 +24,7 @@ export const ContactSection = () => {
     if (result?.error) {
       setStatus({ type: "error", message: result.error });
     } else {
-      setStatus({ type: "success", message: "Message sent successfully! We'll be in touch soon." });
+      setStatus({ type: "success", message: t("contact.success") });
       formRef.current?.reset();
     }
     
@@ -60,14 +62,13 @@ export const ContactSection = () => {
           >
             {/* Section header lives here so it top-aligns with the robot */}
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold mt-3 mb-4 leading-tight">
-              Let&apos;s Build Something <br />
+              {t("contact.title.line1")} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-glow-blue to-white">
-                Meaningful
+                {t("contact.title.line2")}
               </span>
             </h2>
             <p className="text-lg text-secondary-text font-light max-w-md mb-10">
-              Ready to scale your business through technology? Let&apos;s
-              connect and discuss your next big project.
+              {t("contact.subtitle")}
             </p>
 
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-5 max-w-md">
@@ -76,7 +77,7 @@ export const ContactSection = () => {
                   htmlFor="name"
                   className="block text-sm font-medium text-secondary-text mb-2"
                 >
-                  Name
+                  {t("contact.name")}
                 </label>
                 <input
                   type="text"
@@ -84,7 +85,7 @@ export const ContactSection = () => {
                   name="name"
                   required
                   className="w-full bg-secondary-background/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-cta-blue transition-colors"
-                  placeholder="John Doe"
+                  placeholder={t("contact.name.placeholder")}
                 />
               </div>
               <div>
@@ -92,7 +93,7 @@ export const ContactSection = () => {
                   htmlFor="email"
                   className="block text-sm font-medium text-secondary-text mb-2"
                 >
-                  Email
+                  {t("contact.email")}
                 </label>
                 <input
                   type="email"
@@ -100,7 +101,7 @@ export const ContactSection = () => {
                   name="email"
                   required
                   className="w-full bg-secondary-background/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-cta-blue transition-colors"
-                  placeholder="john@example.com"
+                  placeholder={t("contact.email.placeholder")}
                 />
               </div>
               <div>
@@ -108,7 +109,7 @@ export const ContactSection = () => {
                   htmlFor="message"
                   className="block text-sm font-medium text-secondary-text mb-2"
                 >
-                  Message
+                  {t("contact.message")}
                 </label>
                 <textarea
                   id="message"
@@ -116,7 +117,7 @@ export const ContactSection = () => {
                   required
                   rows={4}
                   className="w-full bg-secondary-background/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-cta-blue transition-colors resize-none"
-                  placeholder="Tell me about your project..."
+                  placeholder={t("contact.message.placeholder")}
                 />
               </div>
 
@@ -131,7 +132,7 @@ export const ContactSection = () => {
                 disabled={pending}
                 className="w-full relative px-6 py-3 bg-cta-blue text-white rounded-xl font-medium transition-all duration-300 hover:bg-glow-blue disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {pending ? "Sending..." : "Send Message"}
+                {pending ? t("contact.sending") : t("contact.send")}
               </button>
             </form>
           </motion.div>
@@ -191,9 +192,9 @@ export const ContactSection = () => {
           className="mt-24 md:mt-32 text-center"
         >
           <p className="text-2xl sm:text-3xl md:text-4xl font-heading font-light text-white/80 tracking-wide">
-            Grow to{" "}
-            <span className="text-glow-blue font-medium">Help Others</span>{" "}
-            Grow.
+            {t("tagline.grow")}{" "}
+            <span className="text-glow-blue font-medium">{t("tagline.help")}</span>{" "}
+            {t("tagline.grow2")}
           </p>
         </motion.div>
       </div>

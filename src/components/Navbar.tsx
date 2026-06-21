@@ -1,27 +1,28 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState, useMemo, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CTAPrimaryButton } from "@/components/ui/CTAPrimaryButton";
-
-const NAV_LINKS = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+import { useI18n } from "@/lib/i18n";
 
 export const Navbar = () => {
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("Home");
+  const [active, setActive] = useState("nav.home");
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const NAV_LINKS = useMemo(() => [
+    { key: "nav.home", href: "#hero" },
+    { key: "nav.about", href: "#about" },
+    { key: "nav.services", href: "#services" },
+    { key: "nav.projects", href: "#projects" },
+    { key: "nav.contact", href: "#contact" },
+  ], []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // Intersection Observer to dynamically highlight active nav link
     const observerOptions = {
       root: null,
       rootMargin: "-40% 0px -50% 0px",
@@ -34,7 +35,7 @@ export const Navbar = () => {
           const id = entry.target.id;
           const matchingLink = NAV_LINKS.find((link) => link.href === `#${id}`);
           if (matchingLink) {
-            setActive(matchingLink.label);
+            setActive(matchingLink.key);
           }
         }
       });
@@ -52,24 +53,22 @@ export const Navbar = () => {
       window.removeEventListener("scroll", onScroll);
       observer.disconnect();
     };
-  }, []);
+  }, [NAV_LINKS]);
 
-  // Close mobile menu on resize to desktop
   useEffect(() => {
     const onResize = () => { if (window.innerWidth >= 768) setMobileOpen(false); };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const handleNav = (e: MouseEvent<HTMLElement>, href: string, label: string) => {
+  const handleNav = (e: MouseEvent<HTMLElement>, href: string, key: string) => {
     e.preventDefault();
-    setActive(label);
+    setActive(key);
     setMobileOpen(false);
     const id = href.replace("#", "");
     const el = document.getElementById(id);
@@ -100,10 +99,9 @@ export const Navbar = () => {
         {/* Logo */}
         <a
           href="#hero"
-          onClick={(e) => handleNav(e, "#hero", "Home")}
+          onClick={(e) => handleNav(e, "#hero", "nav.home")}
           className="flex items-center gap-2 shrink-0 group"
         >
-          {/* Glow dot icon */}
           <span
             className="w-2 h-2 rounded-full bg-glow-blue block transition-all duration-300 group-hover:scale-150"
             style={{ boxShadow: "0 0 8px 2px #4C8DFF" }}
@@ -113,19 +111,19 @@ export const Navbar = () => {
           </span>
         </a>
 
-        {/* Nav links — centered with flex-1 (desktop only) */}
+        {/* Nav links */}
         <nav className="hidden md:flex flex-1 items-center justify-center gap-1">
           {NAV_LINKS.map((link) => (
             <a
-              key={link.label}
+              key={link.key}
               href={link.href}
-              onClick={(e) => handleNav(e, link.href, link.label)}
+              onClick={(e) => handleNav(e, link.href, link.key)}
               className="relative px-3 lg:px-4 py-1.5 text-base font-body transition-colors duration-200 rounded-lg group"
               style={{
-                color: active === link.label ? "#FFFFFF" : "#94A3B8",
+                color: active === link.key ? "#FFFFFF" : "#94A3B8",
               }}
             >
-              {active === link.label && (
+              {active === link.key && (
                 <motion.span
                   layoutId="nav-pill"
                   className="absolute inset-0 rounded-lg"
@@ -137,7 +135,7 @@ export const Navbar = () => {
                 />
               )}
               <span className="relative z-10 group-hover:text-white transition-colors duration-200">
-                {link.label}
+                {t(link.key)}
               </span>
             </a>
           ))}
@@ -150,10 +148,10 @@ export const Navbar = () => {
           rel="noopener noreferrer"
           className="shrink-0 hidden md:flex"
         >
-          Let&apos;s Talk
+          {t("nav.cta")}
         </CTAPrimaryButton>
 
-        {/* Mobile menu — hamburger */}
+        {/* Mobile hamburger */}
         <button
           className="md:hidden ml-auto flex flex-col gap-1.5 p-2 relative z-[110]"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -177,7 +175,7 @@ export const Navbar = () => {
         </button>
       </div>
 
-      {/* ── Mobile fullscreen menu ────────────────────────────────── */}
+      {/* Mobile fullscreen menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -194,19 +192,19 @@ export const Navbar = () => {
           >
             {NAV_LINKS.map((link, i) => (
               <motion.a
-                key={link.label}
+                key={link.key}
                 href={link.href}
-                onClick={(e) => handleNav(e, link.href, link.label)}
+                onClick={(e) => handleNav(e, link.href, link.key)}
                 className="text-2xl sm:text-3xl font-heading font-semibold transition-colors duration-200"
                 style={{
-                  color: active === link.label ? "#4C8DFF" : "#94A3B8",
+                  color: active === link.key ? "#4C8DFF" : "#94A3B8",
                 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ delay: i * 0.06, duration: 0.3 }}
               >
-                {link.label}
+                {t(link.key)}
               </motion.a>
             ))}
 
@@ -222,7 +220,7 @@ export const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Let&apos;s Talk
+                {t("nav.cta")}
               </CTAPrimaryButton>
             </motion.div>
           </motion.div>

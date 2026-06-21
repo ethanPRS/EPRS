@@ -3,40 +3,37 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-
 import Image from "next/image";
+import { useI18n } from "@/lib/i18n";
 
 const projects = [
   {
     tags: ["React", "Systems Simulation"],
     title: "Sisops Galaxy",
-    tagline: "Process Scheduling Simulation Dashboard",
-    description:
-      "An interactive dashboard for simulating and visualizing process scheduling algorithms like FCFS, CPU Cores management, and memory allocation.",
+    taglineKey: "project.0.tagline",
+    descriptionKey: "project.0.description",
     stack: "React · TypeScript · Dashboard UI",
-    impact: "Educational systems operations tool",
+    impactKey: "project.0.impact",
     image: "/projects/sisops.png",
     link: "https://sisops-galaxy.onrender.com",
   },
   {
     tags: ["Web App", "Social Impact"],
     title: "Ezer Volunteer Platform",
-    tagline: "Conectando empresas con causas",
-    description:
-      "Designed and developed a platform that helps volunteers discover opportunities and organizations manage community engagement more efficiently.",
+    taglineKey: "project.1.tagline",
+    descriptionKey: "project.1.description",
     stack: "Next.js · Web Development · UX/UI",
-    impact: "Community management simplified",
+    impactKey: "project.1.impact",
     image: "/projects/ezer.png",
     link: "https://ezer-eventos.vercel.app/",
   },
   {
     tags: ["Event Platform", "Real Project"],
     title: "Encuentro Mundial de Valores",
-    tagline: "Humanismo y Valores en la era de la IA",
-    description:
-      "Created the digital platform for an international values-focused event, ensuring that technological advancement aligns with human values.",
+    taglineKey: "project.2.tagline",
+    descriptionKey: "project.2.description",
     stack: "Web Development · Performance",
-    impact: "Centralized event experience delivered",
+    impactKey: "project.2.impact",
     image: "/projects/emv.png",
     link: "https://encuentro-mundial-de-valores.vercel.app/",
   },
@@ -52,6 +49,7 @@ const cardVariants = {
 };
 
 export const ProjectsSection = () => {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
@@ -79,10 +77,10 @@ export const ProjectsSection = () => {
           className="mb-12 md:mb-16 text-center lg:text-left"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold">
-            Projects
+            {t("projects.title")}
           </h2>
           <p className="text-secondary-text mt-4 text-base md:text-lg max-w-xl mx-auto lg:mx-0">
-            Growth creates impact. Impact creates more growth.
+            {t("projects.subtitle")}
           </p>
         </motion.div>
 
@@ -154,12 +152,12 @@ export const ProjectsSection = () => {
 
                 {/* Tagline */}
                 <p className="text-sm text-glow-blue/80 font-medium mb-3">
-                  {project.tagline}
+                  {t(project.taglineKey)}
                 </p>
 
                 {/* Description */}
                 <p className="text-secondary-text font-light text-sm leading-relaxed flex-1">
-                  {project.description}
+                  {t(project.descriptionKey)}
                 </p>
 
                 {/* Divider */}
@@ -178,7 +176,7 @@ export const ProjectsSection = () => {
 
                 {/* Impact line */}
                 <p className="text-xs text-white/40 mt-2 italic">
-                  {project.impact}
+                  {t(project.impactKey)}
                 </p>
               </div>
             </motion.a>

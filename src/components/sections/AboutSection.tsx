@@ -4,8 +4,10 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useI18n } from "@/lib/i18n";
 
 export const AboutSection = () => {
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement>(null);
   const path1Ref = useRef<SVGPathElement>(null);
   const path2Ref = useRef<SVGPathElement>(null);
@@ -51,7 +53,6 @@ export const AboutSection = () => {
       {/* Branching SVG from the main line */}
       <div className="absolute left-4 md:left-24 top-1/2 -translate-y-1/2 w-40 md:w-64 h-40 md:h-64 z-0 pointer-events-none opacity-40 md:opacity-60">
         <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full overflow-visible">
-          {/* Main branch moving right and reconnecting */}
           <path
             ref={path1Ref}
             d="M 0 128 C 60 128, 60 60, 128 60 C 190 60, 190 128, 256 128"
@@ -60,7 +61,6 @@ export const AboutSection = () => {
             strokeLinecap="round"
             className="drop-shadow-[0_0_8px_rgba(76,141,255,0.8)]"
           />
-          {/* Secondary smaller branch */}
           <path
             ref={path2Ref}
             d="M 64 128 C 100 128, 100 190, 160 190 C 210 190, 210 128, 256 128"
@@ -88,20 +88,17 @@ export const AboutSection = () => {
           className="max-w-3xl mx-auto lg:mx-0"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-8 text-center lg:text-left">
-            Building systems that <br className="hidden md:block" />
-            <span className="text-cta-blue">create impact.</span>
+            {t("about.title.line1")} <br className="hidden md:block" />
+            <span className="text-cta-blue">{t("about.title.line2")}</span>
           </h2>
           
           <div className="space-y-6 text-base md:text-lg text-secondary-text font-light leading-relaxed text-center lg:text-left">
-            <p>
-              Growth is not a solitary journey. It is a network of shared knowledge, challenges overcome, and solutions built. At EPRS, the philosophy is simple: when we grow, we expand our capacity to help others grow.
-            </p>
-            <p>
-              By engineering robust software architectures, streamlining complex processes through automation, and integrating state-of-the-art AI, we build the technological foundations that allow businesses to scale efficiently and sustainably.
-            </p>
+            <p>{t("about.p1")}</p>
+            <p>{t("about.p2")}</p>
           </div>
         </motion.div>
       </div>
     </section>
   );
 };
+
