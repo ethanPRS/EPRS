@@ -263,9 +263,6 @@ export const ServicesSection = () => {
           transition={{ duration: 0.7 }}
           className="mb-20"
         >
-          <span className="text-xs tracking-[0.3em] uppercase text-glow-blue font-body font-medium">
-            What I offer
-          </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mt-3 mb-4 leading-tight">
             Technology tailored
             <br />
